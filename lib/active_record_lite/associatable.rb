@@ -1,8 +1,6 @@
-require_relative '02_searchable'
+require_relative 'searchable'
 require 'active_support/inflector'
-require 'byebug'
 
-# Phase IIIa
 class AssocOptions
   attr_accessor(
     :foreign_key,
@@ -52,7 +50,6 @@ class HasManyOptions < AssocOptions
 end
 
 module Associatable
-  # Phase IIIb
   def belongs_to(name, options = {})
     options = BelongsToOptions.new(name, options)
     assoc_options[name] = options
@@ -73,8 +70,23 @@ module Associatable
   end
 
   def assoc_options
-    # Wait to implement this in Phase IVa. Modify `belongs_to`, too.
     @assoc_options ||= {}
+  end
+
+  def has_one_through(name, through_name, source_name)
+    define_method(name) do
+      through_options = self.class.assoc_options[through_name]
+      source_options =
+        through_options.model_class.assoc_options[source_name]
+
+      foreign_key_id = self.send(through_options.foreign_key)
+      result = through_options.model_class.where(id: foreign_key_id)
+      sub_result = result.first
+
+      foreign_key_id = sub_result.send(source_options.foreign_key)
+      result = source_options.model_class.where(id: foreign_key_id)
+      result.first
+    end
   end
 end
 

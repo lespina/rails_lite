@@ -1,9 +1,9 @@
 require_relative 'db_connection'
 require 'active_support/inflector'
-# NB: the attr_accessor we wrote in phase 0 is NOT used in the rest
-# of this project. It was only a warm up.
 
 class SQLObject
+  finalize!
+
   def self.columns
     @columns ||=
       DBConnection.execute2(<<-SQL)
@@ -78,7 +78,6 @@ class SQLObject
   end
 
   def initialize(params = {})
-    self.class.finalize!
     params.each do |col_name, value|
       raise "unknown attribute '#{col_name}'" unless self.class.columns.include?(col_name.to_sym)
 
