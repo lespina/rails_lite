@@ -1,0 +1,9 @@
+*.rbc
+capybara-*.html
+.rspec
+/log
+/tmp
+/spec/tmp
+.byebug_history
+Gemfile.lock
+.DS_Store
