@@ -7,11 +7,12 @@ class Static
     '.zip' => 'application/zip'
   }
 
-  attr_reader :app, :public_regex
+  PUBLIC_REGEX = /\/public\/(.+)/
+
+  attr_reader :app
 
   def initialize(app)
     @app = app
-    @public_regex = /\/public\/([\w+\/?]+\.\w+)/
   end
 
   def call(env)
@@ -19,7 +20,7 @@ class Static
 
     path = req.path
 
-    if path =~ public_regex
+    if path =~ PUBLIC_REGEX
       read_asset(req)
     else
       app.call(env)
@@ -30,8 +31,8 @@ class Static
 
     res = Rack::Response.new
 
-    match_data = public_regex.match(req.path)
-    filename = "#{:public}/#{match_data[1]}"
+    match_data = PUBLIC_REGEX.match(req.path)
+    filename = "public/#{match_data[1]}"
 
     unless File.file?(filename)
       res.status = 404
