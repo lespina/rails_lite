@@ -22,6 +22,7 @@ class Route
       : {}
 
     controller_instance = @controller_class.new(req, res, route_params)
+
     controller_instance.invoke_action(@action_name)
   end
 end

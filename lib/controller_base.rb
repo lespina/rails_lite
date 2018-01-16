@@ -3,15 +3,18 @@ require 'active_support/core_ext'
 require 'active_support/inflector'
 require 'erb'
 require_relative './session'
+require_relative './flash'
 
 class ControllerBase
   attr_reader :req, :res, :params
-
+  @@protect_from_forgery = false
   # Setup the controller
-  def initialize(req, res, route_params)
+  def initialize(req, res, route_params = {})
     @res = res
     @req = req
     @params = req.params.merge(route_params)
+
+    # form_authenticity_token if self.class.protect_from_forgery?
   end
 
   # Helper method to alias @already_built_response
@@ -27,7 +30,7 @@ class ControllerBase
     res.header['location'] = url
     res.status = 302
     @already_built_response = true
-    session.store_session(@res)
+    session.store_session(res)
   end
 
   # Populate the response with content.
@@ -37,10 +40,10 @@ class ControllerBase
     if already_built_response?
       raise 'multiple render/redirect error'
     end
-    @res['Content-Type'] = content_type
-    @res.write(content)
+    res['Content-Type'] = content_type
+    res.write(content)
     @already_built_response = true
-    session.store_session(@res)
+    session.store_session(res)
   end
 
   # use ERB and binding to evaluate templates
@@ -53,12 +56,42 @@ class ControllerBase
 
   # method exposing a `Session` object
   def session
-    @session ||= Session.new(@req)
+    @session ||= Session.new(req)
   end
 
   # use this with the router to call action_name (:index, :show, :create...)
   def invoke_action(name)
+    if req.request_method.to_s.downcase != "get" && self.class.protect_from_forgery?
+      check_authenticity_token
+    else
+      form_authenticity_token
+    end
+
     self.send(name)
     render(name.to_s) unless @already_built_response
+  end
+
+  def form_authenticity_token
+    @token ||= SecureRandom::urlsafe_base64(16)
+    res.set_cookie(
+      'authenticity_token',
+      { path: '/', value: @token }
+    )
+    @token
+  end
+
+  def check_authenticity_token
+    auth_token = req.cookies['authenticity_token']
+    unless auth_token && auth_token == params['authenticity_token']
+      raise 'Invalid authenticity token'
+    end
+  end
+
+  def self.protect_from_forgery
+    @@protect_from_forgery = true
+  end
+
+  def self.protect_from_forgery?
+    @@protect_from_forgery
   end
 end
