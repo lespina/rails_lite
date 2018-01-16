@@ -18,12 +18,9 @@ class ShowExceptions
   private
 
   def render_exception(e)
-    # exceptions_file = File.read('templates/rescue.html.erb')
-    # res = Rack::Response.new
-    # res.status = 500
-    # res['Content-Type'] = 'text/html'
-    # res.write('RuntimeError')
-    ['500', {'Content-type' => 'text/html'}, 'RuntimeError']
+    template = File.read('lib/templates/rescue.html.erb')
+    content = ERB.new(template).result(binding)
+    ['500', {'Content-type' => 'text/html'}, content]
   end
 
 end
