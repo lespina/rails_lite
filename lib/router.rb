@@ -68,7 +68,7 @@ class Router
       matched_route.run(req, res)
     else
       res.status = 404
-      res.write("Not route matches #{req.fullpath}")
+      res.write("No route matches #{req.fullpath}")
     end
   end
 end

@@ -1,5 +1,3 @@
-require 'byebug'
-
 class Static
   MIME_TYPES = {
     '.txt' => 'text/plain',
