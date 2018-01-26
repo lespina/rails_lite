@@ -18,20 +18,6 @@ module Searchable
     self.parse_all(results)
   end
 
-  def joins(table_to_join)
-    other_table = table_to_join.to_s
-    results = DBConnection.execute(<<-SQL, other_table)
-      SELECT
-        *
-      FROM
-        #{self.table_name}
-      JOIN
-        ? ON
-          #{self.table_name}.id = #{other_table}.#{other_table.singularize}_id
-    SQL
-
-    self.parse_all(results)
-  end
 end
 
 class SQLObject

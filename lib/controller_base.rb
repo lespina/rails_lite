@@ -8,16 +8,14 @@ require_relative './flash'
 class ControllerBase
   attr_reader :req, :res, :params
   @@protect_from_forgery = false
+
   # Setup the controller
   def initialize(req, res, route_params = {})
     @res = res
     @req = req
     @params = req.params.merge(route_params)
-
-    # form_authenticity_token if self.class.protect_from_forgery?
   end
 
-  # Helper method to alias @already_built_response
   def already_built_response?
     @already_built_response
   end
@@ -31,6 +29,7 @@ class ControllerBase
     res.status = 302
     @already_built_response = true
     session.store_session(res)
+    flash.store_session(res)
   end
 
   # Populate the response with content.
@@ -44,6 +43,7 @@ class ControllerBase
     res.write(content)
     @already_built_response = true
     session.store_session(res)
+    flash.store_session(res)
   end
 
   # use ERB and binding to evaluate templates
@@ -52,6 +52,10 @@ class ControllerBase
     path = "views/#{self.class.to_s.underscore}/#{template_name}.html.erb"
     template = ERB.new(File.read(path))
     render_content template.result(binding), 'text/html'
+  end
+
+  def flash
+    @flash ||= Flash.new(req)
   end
 
   # method exposing a `Session` object
