@@ -2,7 +2,7 @@
 
 Ruby On Trails is a lightweight implementation of the core functionality of the Rails and Active Record Model-View-Controller framework.  
 
-For proof of concept, please check out HungryHippos, a simple, silly, full-stack web application built entirely using Ruby on Trails and SQLite3!
+For proof of concept, please check out [HungryHippos](http://52.70.147.99/feed), a simple, silly, full-stack web application built entirely using Ruby on Trails and SQLite3!
 
 HungryHippos:
 - [live](http://52.70.147.99/feed)
@@ -10,20 +10,20 @@ HungryHippos:
 
 ## Table of Contents
 
-1. [ActiveRecord Lite](#active-record-lite)
+- [ActiveRecord Lite](#activerecord-lite)
   - [SQLObject](#sqlobject)
     - [Searchable Module](#searchable-module)
     - [Associatable Module](#associatable-module)
   - [DBConnection](#dbconnection)
-2. [ControllerBase](#controller-base)
+- [ControllerBase](#controller-base)
   - [Render & Redirect](#render-&-redirect)
   - [Flash](#flash)
   - [Session](#session)
   - [CSRF Protection](#csrf-protection)
-3. [Routing](#routing)
+- [Routing](#routing)
   - [Route](#route)
   - [Router](#router)
-4. [Static Assets](#static-assets)
+- [Static Assets](#static-assets)
 
 
 ### ActiveRecord Lite
