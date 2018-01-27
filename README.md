@@ -10,7 +10,7 @@ HungryHippos:
 
 ## Table of Contents
 
-- [ActiveRecord Lite](#activerecord-lite)
+- [Active Record Lite](#active-record-lite)
   - [SQLObject](#sqlobject)
     - [Searchable Module](#searchable-module)
     - [Associatable Module](#associatable-module)
@@ -29,9 +29,9 @@ HungryHippos:
 - [Starting the Server](#server)
 
 
-### ActiveRecord Lite
+### Active Record Lite
 
-The first major component underlying Ruby on Trails is an implementation of the Object Relational Mapper (ORM), ActiveRecord.  For clarity, we will refer to the Ruby on Trails implementation as 'ActiveRecord Lite'.  All relevant code may be found in [/lib/active_record_lite/](https://github.com/lespina/ruby_on_trails/tree/master/lib/active_record_lite).
+The first major component underlying Ruby on Trails is an implementation of the Object Relational Mapper (ORM), Active Record.  For clarity, we will refer to the Ruby on Trails implementation as 'Active Record Lite'.  All relevant code may be found in [/lib/active_record_lite/](https://github.com/lespina/ruby_on_trails/tree/master/lib/active_record_lite).
 
 #### SQLObject
 
