@@ -15,18 +15,16 @@ HungryHippos:
     - [Searchable Module](#searchable-module)
     - [Associatable Module](#associatable-module)
   - [DBConnection](#dbconnection)
-- [ControllerBase](#controller-base)
-  - [Render & Redirect](#render-&-redirect)
-  - [Flash](#flash)
-  - [Session](#session)
+- [ControllerBase](#controllerbase)
+  - [Render & Redirect](#render--redirect)
+  - [Flash & Session](#flash--session)
   - [CSRF Protection](#csrf-protection)
 - [Routing](#routing)
-  - [Route](#route)
-  - [Router](#router)
+  - [Router & Route](#router--route)
 - [Middlewares](#middlewares)
   - [Static Assets](#static-assets)
   - [Show Exceptions](#show-exceptions)
-- [Starting the Server](#server)
+- [Starting the Server](#starting-the-server)
 
 
 ### Active Record Lite
@@ -501,7 +499,7 @@ Ruby on Trails differs slightly from true Ruby on Rails, where new routes must b
 
 After evaluating this block of code and [starting the server](#server), the router will initialize the appropriate controller and call the corresponding action for each defined route.
 
-##### Router
+##### Router & Route
 Ruby on Trails is able to define routes via the Router#draw method:
 
 ```ruby
